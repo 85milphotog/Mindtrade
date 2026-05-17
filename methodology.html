@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methodology — MindTrade OS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050608;
+      --card: #10141d;
+      --line: rgba(255,255,255,.08);
+      --text: #f6f7fb;
+      --muted: #c9cfda;
+      --muted2: #8e98a8;
+      --cyan: #00f0ff;
+      --orange: #ff7b32;
+      --green: #39d98a;
+      --yellow: #ffb347;
+      --red: #ff647c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 10% -10%, rgba(0,240,255,.12), transparent 34%),
+                  radial-gradient(circle at 90% 0%, rgba(255,123,50,.11), transparent 28%),
+                  var(--bg);
+    }
+    a { text-decoration: none; color: inherit; }
+    .page {
+      max-width: 1000px;
+      margin: auto;
+      padding: 24px;
+    }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0 22px;
+      border-bottom: 1px solid var(--line);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      font-size: 24px;
+    }
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--cyan), var(--orange));
+      color: #061014;
+      font-weight: 900;
+    }
+    .logo span { color: var(--cyan); }
+    .nav-links {
+      display: flex;
+      gap: 10px;
+    }
+    .nav-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+      color: #dce3ee;
+      font-size: 14px;
+      font-weight: 650;
+    }
+    .nav-links a.active {
+      color: #fff;
+      border-color: rgba(0,240,255,.28);
+      background: rgba(0,240,255,.07);
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(16,20,29,.96), rgba(8,10,15,.96));
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 28px;
+      margin: 20px 0;
+      box-shadow: 0 24px 70px rgba(0,0,0,.34);
+    }
+    h1 {
+      font-size: 42px;
+      margin: 0 0 12px;
+      font-weight: 950;
+      letter-spacing: -.05em;
+      line-height: 1.1;
+    }
+    h2 {
+      font-size: 24px;
+      margin: 28px 0 16px;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      color: var(--cyan);
+    }
+    h3 {
+      font-size: 16px;
+      margin: 20px 0 12px;
+      font-weight: 700;
+    }
+    p, li {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+    ol, ul {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+    li {
+      margin: 10px 0;
+    }
+    .rule-box {
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.035);
+      border-left: 3px solid var(--cyan);
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    .rule-box strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .danger-box {
+      padding: 14px;
+      border-radius: 10px;
+      background: rgba(255,100,124,.12);
+      border-left: 3px solid var(--red);
+      margin: 8px 0;
+      font-size: 14px;
+      color: var(--red);
+    }
+    .success-box {
+      padding: 14px;
+      border-radius: 10px;
+      background: rgba(57,217,138,.12);
+      border-left: 3px solid var(--green);
+      margin: 8px 0;
+      font-size: 14px;
+      color: var(--green);
+    }
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .status-card {
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+    }
+    .status-card h3 {
+      margin-top: 0;
+    }
+    .status-card.green { border-left: 4px solid var(--green); }
+    .status-card.yellow { border-left: 4px solid var(--yellow); }
+    .status-card.red { border-left: 4px solid var(--red); }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .grid-item {
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--line);
+      font-size: 14px;
+    }
+    .kicker {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(0,240,255,.1);
+      border: 1px solid rgba(0,240,255,.25);
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <nav class="nav">
+    <a class="logo" href="index.html"><div class="logo-mark">MT</div>Mind<span>Trade</span></a>
+    <div class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="journaling.html">Journaling</a>
+      <a class="active" href="methodology.html">Methodology</a>
+      <a href="aicoach.html">AI Coach</a>
+    </div>
+  </nav>
+
+  <div class="card">
+    <div class="kicker">Core Philosophy</div>
+    <h1>MindTrade OS Methodology</h1>
+    <p>MindTrade is a trading psychology operating system. It is NOT a market prediction system, signal provider, or trading strategy bot.</p>
+    <p>The core principle: <strong style="color: var(--cyan);">Track the trader, not just the trades.</strong></p>
+    <p>We measure success by discipline and emotional control, not P&L. A trader who broke the plan and made $500 had a failed day. A trader who followed the plan exactly and lost $200 had a successful day.</p>
+  </div>
+
+  <!-- CORE VALUES -->
+  <div class="card">
+    <h2>Core Values</h2>
+    <ol>
+      <li><strong>Discipline over P&L</strong> — Follow the system, win the day. Period.</li>
+      <li><strong>Process over Outcome</strong> — You control your actions, not market results.</li>
+      <li><strong>Emotional Awareness over Prediction</strong> — Know your emotional state before trading.</li>
+      <li><strong>Risk Protection over Trade Frequency</strong> — Miss opportunities. Protect capital.</li>
+      <li><strong>Long-term Consistency over Short-term Profit</strong> — Be the same trader every day.</li>
+    </ol>
+  </div>
+
+  <!-- 20-DAY RULES -->
+  <div class="card">
+    <h2>20-Day Trading Discipline Challenge Rules</h2>
+    <p>The challenge consists of 20 trading days. Each day you're scored 0-10 based on discipline. The trader with the highest average score wins, regardless of P&L.</p>
+    
+    <h3>Execution Rules</h3>
+    <div class="rule-box"><strong>1. Maximum 2 trades per day</strong> — No more than two live trades, ever.</div>
+    <div class="rule-box"><strong>2. One winner and done</strong> — If you make one clean win, you can exit the day.</div>
+    <div class="rule-box"><strong>3. Stop after 2 losses</strong> — Two losses in a day, you're done trading.</div>
+    <div class="rule-box"><strong>4. Stop immediately after 1 broken-plan trade</strong> — Any trade outside your plan = stop for the day.</div>
+    
+    <h3>Risk Rules</h3>
+    <div class="rule-box"><strong>5. Risk per trade: $150–$200</strong> — Exact size limit per trade.</div>
+    <div class="rule-box"><strong>6. Daily personal max loss: $500 hard stop</strong> — Lose $500, stop trading immediately.</div>
+    <div class="rule-box"><strong>7. Weekly max loss: $800–$1,000 or 3 red days</strong> — If you hit 3 losing days, week is over.</div>
+    
+    <h3>Setup & Timeframe Rules</h3>
+    <div class="rule-box"><strong>8. Only 30m and 1H execution</strong> — Trade only these timeframes.</div>
+    <div class="rule-box"><strong>9. No lower timeframe entries</strong> — Do not enter on 15m, 5m, or 1m candles.</div>
+    <div class="rule-box"><strong>10. Confirmation candle first, execution candle second</strong> — See confirmation before entry.</div>
+    
+    <h3>Loss Recovery Rules</h3>
+    <div class="rule-box"><strong>11. After a loss, wait one full 30m candle close</strong> — Emotional break is mandatory.</div>
+    <div class="rule-box"><strong>12. No trading if market is ranging and unclear</strong> — Only trade during structure.</div>
+    
+    <h3>Behaviour Rules</h3>
+    <div class="rule-box"><strong>13. Maximum 90 minutes active screen time</strong> — Limit fatigue and emotional drain.</div>
+    <div class="rule-box"><strong>14. Pre-session checklist must be completed</strong> — Always do this. No exceptions.</div>
+    <div class="rule-box"><strong>15. Post-session journal must be completed</strong> — Reflect every day.</div>
+    
+    <h3>Scoring Rules</h3>
+    <div class="rule-box"><strong>16. Score every day out of 10</strong> — Use the daily scorecard.</div>
+    <div class="rule-box"><strong>17. Winner is highest plan-adherence score, not highest P&L</strong> — Never P&L. Discipline only.</div>
+  </div>
+
+  <!-- DAILY SCORECARD -->
+  <div class="card">
+    <h2>Daily Scorecard (0-10)</h2>
+    <p>Every day is scored on 8 criteria, 1 point each. Reach 8/10 or higher for a successful discipline day.</p>
+    
+    <div class="grid-2">
+      <div class="grid-item"><strong>1. Pre-Checklist</strong><br>Completed before trading (1pt)</div>
+      <div class="grid-item"><strong>2. Only Planned</strong><br>Traded only planned setups (2pts)</div>
+      <div class="grid-item"><strong>3. Correct TF</strong><br>Used 30m or 1H only (1pt)</div>
+      <div class="grid-item"><strong>4. Risk Respected</strong><br>Stayed within limits (2pts)</div>
+      <div class="grid-item"><strong>6. Trade Limit</strong><br>Max 2 trades respected (1pt)</div>
+      <div class="grid-item"><strong>6. Loss Protocol</strong><br>Waited after losses (1pt)</div>
+      <div class="grid-item"><strong>7. No Revenge</strong><br>No revenge/FOMO trades (1pt)</div>
+      <div class="grid-item"><strong>8. Post-Journal</strong><br>Completed after trading (1pt)</div>
+    </div>
+
+    <h3>Auto-Fail Conditions (Score = 0/10)</h3>
+    <p>If ANY of these occur, the day is automatically 0/10, even if other rules were followed:</p>
+    <div class="danger-box">🚩 Executed a revenge trade (breaking plan to make back losses)</div>
+    <div class="danger-box">🚩 Traded after hitting the $500 daily loss limit</div>
+    <div class="danger-box">🚩 Moved a stop loss further away on a losing trade</div>
+    <div class="danger-box">🚩 Used a lower timeframe entry (below 30m)</div>
+    <div class="danger-box">🚩 Executed a completely broken-plan trade</div>
+  </div>
+
+  <!-- PERMISSION STATES -->
+  <div class="card">
+    <h2>Permission States: Green / Yellow / Red</h2>
+    <p>Before each session, the AI Coach assesses your emotional readiness and assigns a permission state. This determines your trading rules for that day.</p>
+
+    <div class="status-grid">
+      <div class="status-card green">
+        <h3>🟢 GREEN (Score 75+)</h3>
+        <p><strong>You sound:</strong> Calm, patient, structured, plan-focused.</p>
+        <p><strong>Permission:</strong> Normal execution allowed. A+ setups only.</p>
+        <p><strong>What to do:</strong> Execute your plan. Follow your rules. Trust the process. Nothing to prove today.</p>
+      </div>
+
+      <div class="status-card yellow">
+        <h3>🟡 YELLOW (Score 55-74)</h3>
+        <p><strong>You sound:</strong> Mild emotional risk. Frustration, impatience, FOMO, overconfidence, tiredness.</p>
+        <p><strong>Permission:</strong> Trade smaller, slower, fewer trades. Strict checklist required.</p>
+        <p><strong>What to do:</strong> Reduce size 25%. Max 1-2 trades. Only trade confirmed setups. Expect to miss moves.</p>
+      </div>
+
+      <div class="status-card red">
+        <h3>🔴 RED (Score 0-54)</h3>
+        <p><strong>You sound:</strong> High emotional risk. Revenge trading, desperation, chasing, anger, broken-plan behaviour.</p>
+        <p><strong>Permission:</strong> No live trading recommended.</p>
+        <p><strong>What to do:</strong> Simulation mode only. Reset protocol. Journal. Walk away. Review rules.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DANGEROUS THOUGHTS -->
+  <div class="card">
+    <h2>Dangerous Thoughts & What They Signal</h2>
+    <p>The AI Coach listens for these phrases and emotional patterns. When detected, it flags the likely risk and adjusts your permission state.</p>
+
+    <h3>🔴 Revenge Trading Risk</h3>
+    <div class="danger-box">"I need to make it back"</div>
+    <div class="danger-box">"Make the loss back quickly"</div>
+    <div class="danger-box">"I'm desperate to recover"</div>
+    <p><strong>What it means:</strong> You're emotionally attached to the loss and seeking to recoup rather than follow the plan. This leads to oversized risk, broken-plan trades, and blowups. STOP trading immediately if you hear this in your head.</p>
+
+    <h3>🟡 FOMO & Chasing Risk</h3>
+    <div class="danger-box">"The move is leaving without me"</div>
+    <div class="danger-box">"I'm missing out"</div>
+    <div class="danger-box">"I missed the move"</div>
+    <p><strong>What it means:</strong> You're chasing moves instead of waiting for your setup. This causes you to enter lower timeframes, chase momentum, and lose discipline. Miss the move. Protect capital.</p>
+
+    <h3>🟡 Overconfidence & Ego Risk</h3>
+    <div class="danger-box">"This one looks obvious"</div>
+    <div class="danger-box">"I can feel the market today"</div>
+    <div class="danger-box">"I know this will reverse"</div>
+    <div class="danger-box">"Easy money"</div>
+    <div class="danger-box">"I've cracked the code"</div>
+    <p><strong>What it means:</strong> You're ego trading and assume you have special market insight. You'll override your plan, increase size, and take stupid risks. This is how accounts blow up.</p>
+
+    <h3>🟡 Cockiness After Wins</h3>
+    <div class="danger-box">"I made good money, I can risk more"</div>
+    <div class="danger-box">"I can increase size now"</div>
+    <p><strong>What it means:</strong> One win doesn't mean you've changed. You can go from hero to zero in one trade. Risk stays the same. Always.</p>
+
+    <h3>🟡 Impatience & Urgency</h3>
+    <div class="danger-box">"Just one more trade"</div>
+    <div class="danger-box">"I'll stop after this"</div>
+    <div class="danger-box">"Rushed"</div>
+    <p><strong>What it means:</strong> You're pushing for action instead of waiting. This leads to forced trades, broken plans, and bad entries. Patience is your edge.</p>
+
+    <h3>🟡 Emotional Carry-Over</h3>
+    <div class="danger-box">"I'm frustrated from yesterday's loss"</div>
+    <div class="danger-box">"I'm angry at the market"</div>
+    <p><strong>What it means:</strong> Yesterday's emotion is bleeding into today. You're not in a clear headspace. Reduce size. Slow down. Reset yourself.</p>
+
+    <h3>🟡 Reduced Cognition</h3>
+    <div class="danger-box">"I'm tired"</div>
+    <div class="danger-box">"I'm exhausted"</div>
+    <div class="danger-box">"I'm anxious"</div>
+    <p><strong>What it means:</strong> Your mental capacity is reduced. Trading tired is a losing position. Consider sitting out or simulation mode.</p>
+  </div>
+
+  <!-- TRADER IDENTITY -->
+  <div class="card">
+    <h2>Reinforcing Your Trader Identity</h2>
+    <p>MindTrade teaches you to separate behaviour from identity. When you break a rule, it doesn't mean you're a bad trader. It means you had an emotional behaviour that you can fix.</p>
+
+    <p style="margin-top: 20px;"><strong>Say this to yourself:</strong></p>
+    <div class="success-box">✅ "I am a process-driven trader."</div>
+    <div class="success-box">✅ "I do not trade for validation."</div>
+    <div class="success-box">✅ "I wait for my setup."</div>
+    <div class="success-box">✅ "I protect my capital and emotional state."</div>
+    <div class="success-box">✅ "If I follow the plan, I win the day."</div>
+    <div class="success-box">✅ "Missing moves is not a loss. Breaking plan is."</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="card" style="text-align: center; background: rgba(255,255,255,.02); border: none;">
+    <p style="font-size: 14px; color: var(--muted2);">MindTrade OS — AI Trading Psychology Operating System</p>
+    <p style="font-size: 12px; color: var(--muted2);">Discipline, not prediction. Process, not outcome. Psychology, not predictions.</p>
+  </div>
+</div>
+</body>
+</html>

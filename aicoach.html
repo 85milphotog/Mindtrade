@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Coach — MindTrade OS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050608;
+      --card: #10141d;
+      --line: rgba(255,255,255,.08);
+      --text: #f6f7fb;
+      --muted: #c9cfda;
+      --muted2: #8e98a8;
+      --cyan: #00f0ff;
+      --orange: #ff7b32;
+      --green: #39d98a;
+      --yellow: #ffb347;
+      --red: #ff647c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 10% -10%, rgba(0,240,255,.12), transparent 34%),
+                  radial-gradient(circle at 90% 0%, rgba(255,123,50,.11), transparent 28%),
+                  var(--bg);
+    }
+    a { text-decoration: none; color: inherit; }
+    .page {
+      max-width: 1000px;
+      margin: auto;
+      padding: 24px;
+    }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0 22px;
+      border-bottom: 1px solid var(--line);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      font-size: 24px;
+    }
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--cyan), var(--orange));
+      color: #061014;
+      font-weight: 900;
+    }
+    .logo span { color: var(--cyan); }
+    .nav-links {
+      display: flex;
+      gap: 10px;
+    }
+    .nav-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+      color: #dce3ee;
+      font-size: 14px;
+      font-weight: 650;
+    }
+    .nav-links a.active {
+      color: #fff;
+      border-color: rgba(0,240,255,.28);
+      background: rgba(0,240,255,.07);
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 22px;
+      margin: 24px 0;
+    }
+    .panel, .card {
+      background: linear-gradient(180deg, rgba(16,20,29,.96), rgba(8,10,15,.96));
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      padding: 32px;
+      box-shadow: 0 24px 70px rgba(0,0,0,.34);
+    }
+    .kicker {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,240,255,.25);
+      background: rgba(0,240,255,.07);
+      color: var(--cyan);
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 18px var(--cyan);
+    }
+    h1 {
+      font-size: 42px;
+      margin: 0 0 16px;
+      font-weight: 950;
+      letter-spacing: -.05em;
+      line-height: 1.1;
+    }
+    h2 {
+      font-size: 24px;
+      margin: 24px 0 16px;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
+    .lead {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    label {
+      display: block;
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 12px;
+      font-weight: 900;
+      margin: 16px 0 8px;
+    }
+    textarea, input, select {
+      width: 100%;
+      background: #080b10;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 15px 16px;
+      color: #fff;
+      font: inherit;
+      font-size: 15px;
+      outline: none;
+      margin-bottom: 8px;
+    }
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+    textarea:focus, input:focus {
+      border-color: rgba(0,240,255,.3);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 18px;
+      border-radius: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      border: 0;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, var(--cyan), #81f7ff);
+      color: #031113;
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line);
+      color: #eef3fb;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,.2);
+      border-top-color: #00f0ff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .result-panel {
+      margin-top: 24px;
+      padding: 24px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+    }
+    .result-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-box {
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--line);
+    }
+    .stat-box small {
+      display: block;
+      color: var(--muted2);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+    .stat-box strong {
+      display: block;
+      font-size: 26px;
+      letter-spacing: -.05em;
+    }
+    .risk-tag {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      margin: 6px 6px 6px 0;
+    }
+    .risk-tag.high {
+      background: rgba(255,100,124,.2);
+      border: 1px solid rgba(255,100,124,.4);
+      color: var(--red);
+    }
+    .risk-tag.medium {
+      background: rgba(255,179,71,.2);
+      border: 1px solid rgba(255,179,71,.4);
+      color: var(--yellow);
+    }
+    .protocol-box {
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.035);
+      border-left: 3px solid var(--cyan);
+      margin: 8px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .info-box {
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(0,240,255,.08);
+      border: 1px solid rgba(0,240,255,.25);
+      margin: 16px 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    @media(max-width: 768px) {
+      .hero { display: block; }
+      .panel, .card { margin-bottom: 16px; }
+      .result-header { grid-template-columns: 1fr; }
+      h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <nav class="nav">
+    <a class="logo" href="index.html"><div class="logo-mark">MT</div>Mind<span>Trade</span></a>
+    <div class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="journaling.html">Journaling</a>
+      <a href="methodology.html">Methodology</a>
+      <a class="active" href="aicoach.html">AI Coach</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="panel">
+      <div class="kicker"><span class="dot"></span>AI Trading Psychologist</div>
+      <h1>Talk to Your <em>Coach</em></h1>
+      <p class="lead">Get real-time emotional assessment and trading permission for your session. The AI detects risk and coaches you on discipline, not predictions.</p>
+    </div>
+    <div class="panel">
+      <label>What's on your mind right now?</label>
+      <textarea id="coachInput" placeholder="Describe how you're feeling before this session. What's your emotional state? Any thoughts or feelings you want to process?"></textarea>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="runCoachScan()" id="coachBtn">Get Coaching Assessment</button>
+        <button class="btn btn-ghost" onclick="clearCoachInput()">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT SECTION -->
+  <div id="coachResult" style="display: none;">
+    <div class="panel">
+      <div class="kicker"><span class="dot"></span>Assessment Complete</div>
+      <h1 id="coachHeadline">Your Readiness Status</h1>
+
+      <div class="result-header">
+        <div class="stat-box">
+          <small>Readiness Score</small>
+          <strong id="coachScore">--</strong>
+        </div>
+        <div class="stat-box">
+          <small>Permission State</small>
+          <strong id="coachStatus">--</strong>
+        </div>
+      </div>
+
+      <div style="padding: 16px; border-radius: 12px; background: rgba(255,255,255,.035); border: 1px solid var(--line); margin-bottom: 20px;">
+        <div style="font-size: 15px; line-height: 1.6;" id="coachMessage"></div>
+      </div>
+
+      <div id="risksSection" style="display: none;">
+        <h2>Detected Emotional Risks</h2>
+        <div id="risksList"></div>
+      </div>
+
+      <div id="strengthsSection" style="display: none;">
+        <h2>Detected Strengths</h2>
+        <div id="strengthsList"></div>
+      </div>
+
+      <h2>Trading Protocol for This Session</h2>
+      <div id="protocolList"></div>
+
+      <div class="info-box">
+        <strong>If-Then Rule:</strong><br>
+        <div id="ifThenText" style="margin-top: 8px;"></div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-ghost" onclick="resetCoach()">Back to Input</button>
+        <button class="btn btn-primary" onclick="saveCoachAssessment()">Save Assessment & Go to Journaling</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK TIPS SECTION -->
+  <div class="panel" style="margin-top: 32px;">
+    <h2>💡 Quick Coaching Notes</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px;">
+      <div style="padding: 14px; border-radius: 12px; background: rgba(57,217,138,.15); border-left: 3px solid var(--green);">
+        <strong style="color: var(--green);">GREEN (Score 75+)</strong><br>
+        <span style="font-size: 14px; color: var(--muted);">You're calm and plan-focused. Normal trading allowed. Execute your setups.</span>
+      </div>
+      <div style="padding: 14px; border-radius: 12px; background: rgba(255,179,71,.15); border-left: 3px solid var(--yellow);">
+        <strong style="color: var(--yellow);">YELLOW (Score 55-74)</strong><br>
+        <span style="font-size: 14px; color: var(--muted);">Mild risk detected. Reduce size, trade fewer setups, follow checklist strictly.</span>
+      </div>
+      <div style="padding: 14px; border-radius: 12px; background: rgba(255,100,124,.15); border-left: 3px solid var(--red);">
+        <strong style="color: var(--red);">RED (Score 0-54)</strong><br>
+        <span style="font-size: 14px; color: var(--muted);">High emotional risk. No live trading recommended. Use simulation or step out.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top: 24px;">
+    <h2>About This Coach</h2>
+    <p class="lead">
+      This AI coach is NOT a market predictor or trade signal system. It's a trading psychology specialist that monitors your emotional state, detects dangerous thought patterns, and coaches you toward discipline and process adherence.
+    </p>
+    <p class="lead">
+      The assessment is based on your words, emotional language, and the psychological frameworks of professional trading psychology. It always prioritizes: discipline over P&L, process over outcome, emotional awareness over prediction.
+    </p>
+  </div>
+</div>
+
+<script src="mt-core.js"></script>
+<script>
+function runCoachScan() {
+  const text = document.getElementById('coachInput').value.trim();
+  if (!text) {
+    MT.toast('Tell me what\'s on your mind first', 'info');
+    return;
+  }
+
+  const btn = document.getElementById('coachBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Assessing...';
+
+  MT.callClaude(MT.COACH_SYSTEM, text).then(response => {
+    const res = MT.parseCoachResponse(response);
+    renderCoachResult(res);
+    showCoachResult();
+    btn.disabled = false;
+    btn.innerHTML = 'Get Coaching Assessment';
+    MT.toast('✓ Assessment complete', 'ok');
+  }).catch(err => {
+    MT.toast('Error: ' + err.message, 'err');
+    btn.disabled = false;
+    btn.innerHTML = 'Get Coaching Assessment';
+  });
+}
+
+function renderCoachResult(res) {
+  const statusColor = {
+    GREEN: { color: 'var(--green)', label: '🟢 GREEN' },
+    YELLOW: { color: 'var(--yellow)', label: '🟡 YELLOW' },
+    RED: { color: 'var(--red)', label: '🔴 RED' }
+  }[res.status] || { color: 'var(--yellow)', label: 'YELLOW' };
+
+  document.getElementById('coachHeadline').textContent = res.headline;
+  document.getElementById('coachScore').textContent = res.score + '/100';
+  document.getElementById('coachScore').style.color = statusColor.color;
+  document.getElementById('coachStatus').textContent = statusColor.label;
+  document.getElementById('coachStatus').style.color = statusColor.color;
+  document.getElementById('coachMessage').textContent = res.message;
+
+  // Risks
+  if (res.risks && res.risks.length > 0) {
+    document.getElementById('risksSection').style.display = 'block';
+    document.getElementById('risksList').innerHTML = res.risks
+      .map(risk => `<span class="risk-tag high">⚠️ ${risk}</span>`)
+      .join('');
+  } else {
+    document.getElementById('risksSection').style.display = 'none';
+  }
+
+  // Strengths
+  if (res.strengths && res.strengths.length > 0) {
+    document.getElementById('strengthsSection').style.display = 'block';
+    document.getElementById('strengthsList').innerHTML = res.strengths
+      .map(strength => `<span class="risk-tag" style="background: rgba(57,217,138,.2); border-color: rgba(57,217,138,.4); color: var(--green);">✅ ${strength}</span>`)
+      .join('');
+  } else {
+    document.getElementById('strengthsSection').style.display = 'none';
+  }
+
+  // Protocol
+  document.getElementById('protocolList').innerHTML = (res.protocol || [])
+    .map(p => `<div class="protocol-box">${p}</div>`)
+    .join('');
+
+  // If-Then
+  document.getElementById('ifThenText').textContent = res.ifThen;
+}
+
+function showCoachResult() {
+  document.getElementById('coachResult').style.display = 'block';
+  document.querySelector('.hero').style.display = 'none';
+  window.scrollTo(0, 0);
+}
+
+function resetCoach() {
+  document.getElementById('coachResult').style.display = 'none';
+  document.querySelector('.hero').style.display = 'grid';
+  clearCoachInput();
+  window.scrollTo(0, 0);
+}
+
+function clearCoachInput() {
+  document.getElementById('coachInput').value = '';
+}
+
+function saveCoachAssessment() {
+  // This would save to today's entry if you wanted to
+  // For now, just redirect to journaling
+  window.location.href = 'journaling.html';
+}
+</script>
+</body>
+</html>
